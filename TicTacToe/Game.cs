@@ -12,31 +12,46 @@ namespace TicTacToe
         {
 
             int currentPlayer = -1;
-            int[] gameMarker = {1,2,3,4,5,6,7,8,9};
+            char[] gameMarker = {'1', '2', '3', '4', '5', '6', '7', '8', '9' };
             
             do
             {
-                Console.Clear();
+           
                 currentPlayer = GetNextPlayer(currentPlayer);
                 DrawGameBoard(gameMarker);
                 HeadsUpDisplay(currentPlayer);
                 GameEngine(gameMarker,currentPlayer);
-                int userInput;
-                userInput = int.Parse(Console.ReadLine());
-                Console.Clear();
             } while (true);
            
            
         }
 
-        private void GameEngine(int[] gameMarker, int currentPlayer)
+        private void GameEngine(char[] gameMarker, int currentPlayer)
         {
-            int userInput = int.Parse(Console.ReadLine());
-            if(userInput == 1)
-            { 
+            string userInput = Console.ReadLine();
+            if (userInput.Equals("1") || userInput.Equals("2") || userInput.Equals("3") || userInput.Equals("4") || userInput.Equals("5") || userInput.Equals("6") || userInput.Equals("7") || userInput.Equals("8") || userInput.Equals("9"))
+            {
                 Console.Clear();
-                int currentMarker = gameMarker[userInput - 1];
+                int.TryParse(userInput, out var gamePlacementMaker);
+                char currentMarker = gameMarker[gamePlacementMaker - 1];
+                if (currentMarker.Equals("X") || currentMarker.Equals("O"))
+                {
+                    Console.WriteLine("Placement has already have a marker. Please select another placement");
+                }
+                else 
+                {
+                    gameMarker[gamePlacementMaker - 1] = GetPlayerMarker(currentPlayer);
+                }
             }
+        }
+
+        public static char GetPlayerMarker(int player) 
+        {
+            if (player % 2 == 0) 
+            {
+                return '0';
+            }
+            return 'X';
         }
 
         static void HeadsUpDisplay(int PlayerNumber)
@@ -46,7 +61,7 @@ namespace TicTacToe
 
         }
 
-        static void DrawGameBoard(int[] gameMarker) 
+        static void DrawGameBoard(char[] gameMarker) 
         {
             Console.WriteLine(" -------------------- ");
             Console.WriteLine($"| {gameMarker[0]}   |   {gameMarker[1]}   |   {gameMarker[2]}  |");
